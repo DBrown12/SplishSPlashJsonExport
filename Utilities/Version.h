@@ -5,8 +5,8 @@
 #define STRINGIZE(x) STRINGIZE_HELPER(x)
 #define WARNING(desc) message(__FILE__ "(" STRINGIZE(__LINE__) ") : Warning: " #desc)
 
-#define GIT_SHA1 "e773d3e26655b32ab67a9ac7c48f6f2bf22f9429"
-#define GIT_REFSPEC "refs/heads/master"
+#define GIT_SHA1 "3f7ad532dcfead48d6a6f55279d6f332c10112c6"
+#define GIT_REFSPEC "refs/heads/main"
 #define GIT_LOCAL_STATUS "DIRTY"
 
 #define SPLISHSPLASH_VERSION "2.13.1"

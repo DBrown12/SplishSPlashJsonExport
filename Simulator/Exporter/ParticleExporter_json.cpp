@@ -108,6 +108,10 @@ void ParticleExporter_JSON::writeParticlesJSON(const std::string& fileName,
     json root;
     root["frame"] = frame;
     root["dt"]    = TimeManager::getCurrent()->getTimeStepSize();
+    const Real h = Simulation::getCurrent()->getSupportRadius();
+    const Real dx = Real(0.5) * h;
+    const Real W0 = W_poly6(Real(0), h);
+    Vector3r minB, maxB;
 
     // ------------- Serialize particles -------------------------------------------------
     auto &plist = root["particles"];
@@ -137,13 +141,20 @@ void ParticleExporter_JSON::writeParticlesJSON(const std::string& fileName,
         if (objId != 0xffffffff && model->getObjectId(pi) != objId) continue;
 
         json p;
-        p["id"]  = model->getParticleId(pi);
+        json attr;
+
         const Vector3r &x = model->getPosition(pi);
         const Vector3r &v = model->getVelocity(pi);
+        const Real mass = model->getMass(pi);
+        const Real density = model->getDensity(pi);
+
+        p["id"] = model->getParticleId(pi);
         p["pos"] = { x[0], x[1], x[2] };
         p["vel"] = { v[0], v[1], v[2] };
+        p["mass"] = mass;
+        p["density"] = density;
+        p["W0"] = W0;
 
-        json attr;
         for (unsigned int ai = 0; ai < attributes.size(); ++ai)
         {
             int fi = attrMap[ai];
@@ -161,20 +172,22 @@ void ParticleExporter_JSON::writeParticlesJSON(const std::string& fileName,
         }
         if (!attr.empty()) p["attr"] = std::move(attr);
         plist.push_back(std::move(p));
+
+        minB = minB.cwiseMin(x);
+        maxB = maxB.cwiseMax(x);
     }
 
     // ------------- Build velocity vector field on grid ------------------------------
     //const Real h  = model->getSupportRadius();
-    const Real h = Simulation::getCurrent()->getSupportRadius();
 
-    const Real dx = Real(0.5) * h;
-    Vector3r minB, maxB;
     //sim->computeBounds(minB, maxB);
+    /*
     minB = model->getPosition(0), maxB = minB;
     for (unsigned int i = 1; i < model->numActiveParticles(); ++i)
         minB = minB.cwiseMin(model->getPosition(i)),
         maxB = maxB.cwiseMax(model->getPosition(i));
-        
+    */
+
     Eigen::Vector3i dims = ((maxB - minB) / dx).cast<int>();
     for (int c = 0; c < 3; ++c) dims[c] = std::max(dims[c], 1);
 
@@ -188,6 +201,10 @@ void ParticleExporter_JSON::writeParticlesJSON(const std::string& fileName,
         if (objId != 0xffffffff && model->getObjectId(pi) != objId) continue;
         const Vector3r &xp = model->getPosition(pi);
         const Vector3r &vp = model->getVelocity(pi);
+        const Real mass = model->getMass(pi);
+        const Real density = model->getDensity(pi);
+        const Real mass_over_density = mass / density;
+
         Eigen::Vector3i minI = ((xp - Vector3r::Constant(h) - minB) / dx).cast<int>();
         Eigen::Vector3i maxI = ((xp + Vector3r::Constant(h) - minB) / dx).cast<int>();
         minI = minI.cwiseMax(Eigen::Vector3i::Zero());
@@ -199,7 +216,7 @@ void ParticleExporter_JSON::writeParticlesJSON(const std::string& fileName,
             Eigen::Vector3i ijk(x,y,z);
             Vector3r xg = minB + (ijk.cast<Real>() + Vector3r::Constant(0.5))*dx;
             Real r = (xg - xp).norm(); if (r >= Real(2.0)*h) continue;
-            Real weight = W_poly6(r,h);
+            Real weight = mass_over_density * W_poly6(r,h);
             size_t idx = flat(ijk);
             vel[idx] += vp * weight;
             w[idx]   += weight;
