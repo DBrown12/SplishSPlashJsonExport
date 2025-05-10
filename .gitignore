@@ -1,0 +1,13 @@
+# Ignore build output and third-party folders
+build/
+out/
+
+# (Optional but useful)
+.vs/
+*.VC.opendb
+*.obj
+*.pdb
+*.exe
+*.log
+*.user
+*.suo

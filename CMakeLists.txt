@@ -6,7 +6,9 @@ cmake_minimum_required(VERSION 3.1)
 project(SPlisHSPlasH)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
+include_directories(${CMAKE_SOURCE_DIR}/extern/nlohmann)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 
 include(Common)
 if (NOT WIN32)
