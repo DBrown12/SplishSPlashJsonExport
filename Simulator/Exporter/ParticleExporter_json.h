@@ -18,6 +18,11 @@ namespace SPH
         std::string        m_exportPath;   //!< directory for .json output
         std::future<void>  m_handle;       //!< async file writer handle
 
+        bool              m_gridInit = false;          //!< true after first init
+        Vector3r          m_gridOrigin = Vector3r::Zero();
+        Eigen::Vector3i   m_gridDims = Eigen::Vector3i::Ones();
+        Real              m_gridDx = Real(0.0);      //!< == 0.5 * h
+
         /** \brief Serialize one frame.  Called internally by step().
          *  @param fileName  Absolute path without extension (".../file.json").
          *  @param model     Fluid model to export.
