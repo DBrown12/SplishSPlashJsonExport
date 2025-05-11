@@ -312,6 +312,7 @@ int BoundaryParameterObject::BOUNDARY_SAMPLES_FILE = -1;
 int BoundaryParameterObject::BOUNDARY_MESH_FILE = -1;
 int BoundaryParameterObject::BOUNDARY_TRANSLATION = -1;
 int BoundaryParameterObject::BOUNDARY_AXIS = -1;
+int BoundaryParameterObject::BOUNDARY_VELOCITY = -1;
 int BoundaryParameterObject::BOUNDARY_ANGLE = -1;
 int BoundaryParameterObject::BOUNDARY_SCALE = -1;
 int BoundaryParameterObject::BOUNDARY_DYNAMIC = -1;
@@ -341,6 +342,10 @@ void BoundaryParameterObject::initParameters()
 	BOUNDARY_AXIS = createVectorParameter("rotationAxis", "Rotation axis", 3u, axis.data());
 	setGroup(BOUNDARY_AXIS, "Boundary");
 	setDescription(BOUNDARY_AXIS, "Axis used to rotate the rigid body after loading.");
+
+	BOUNDARY_VELOCITY = createVectorParameter("velocity", "Velocity", 3u, velocity.data());
+	setGroup(BOUNDARY_VELOCITY, "Boundary");
+	setDescription(BOUNDARY_VELOCITY, "Initial velocity.");
 
 	BOUNDARY_ANGLE = createNumericParameter<Real>("rotationAngle", "Rotation angle", &angle);
 	setGroup(BOUNDARY_ANGLE, "Boundary");

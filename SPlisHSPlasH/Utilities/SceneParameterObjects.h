@@ -327,6 +327,7 @@ namespace Utilities
 		std::string meshFile;
 		Vector3r translation;
 		Vector3r axis;
+		Vector3r velocity;
 		Real angle;
 		Vector3r scale;
 		bool dynamic;
@@ -346,6 +347,7 @@ namespace Utilities
 			meshFile = "";
 			translation = Vector3r::Zero();
 			axis = Vector3r(1, 0, 0);
+			velocity = Vector3r(0, 0, 0);
 			angle = 0.0;
 			scale = Vector3r::Ones();
 			dynamic = false;
@@ -360,7 +362,7 @@ namespace Utilities
 			mapResolution = Eigen::Matrix<unsigned int, 3, 1>(20, 20, 20);
 		}
 
-		BoundaryParameterObject(std::string samplesFile_, std::string meshFile_, Vector3r translation_, Vector3r axis_, Real angle_, Vector3r scale_,
+		BoundaryParameterObject(std::string samplesFile_, std::string meshFile_, Vector3r translation_, Vector3r axis_, Vector3r velocity_, Real angle_, Vector3r scale_,
 								bool dynamic_, bool isWall_, Vector4r color_, std::string mapFile_, bool mapInvert_,
 								Real mapThickness_, Eigen::Matrix<unsigned int, 3, 1, Eigen::DontAlign> mapResolution_, unsigned int samplingMode_, bool isAnimated_)
 		{
@@ -368,6 +370,7 @@ namespace Utilities
 			meshFile = meshFile_;
 			translation = translation_;
 			axis = axis_;
+			velocity = velocity_;
 			angle = angle_;
 			scale = scale_;
 			dynamic = dynamic_;
@@ -386,6 +389,7 @@ namespace Utilities
 		static int BOUNDARY_MESH_FILE;
 		static int BOUNDARY_TRANSLATION;
 		static int BOUNDARY_AXIS;
+		static int BOUNDARY_VELOCITY;
 		static int BOUNDARY_ANGLE;
 		static int BOUNDARY_SCALE;
 		static int BOUNDARY_DYNAMIC;

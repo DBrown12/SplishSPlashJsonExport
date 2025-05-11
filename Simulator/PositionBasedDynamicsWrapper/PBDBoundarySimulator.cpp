@@ -230,6 +230,8 @@ void PBDBoundarySimulator::initBoundaryData()
 				xLocal[j] = rb->getRotation().toRotationMatrix().transpose() * (vd.getPosition(j) - rb->getPosition());
 			m_base->initVolumeMap(xLocal, mesh.getFaces(), scene.boundaryModels[i], md5, true, bm);
 		}
+		rb->setVelocity(scene.boundaryModels[i]->velocity);
+
 		if (useCache && !md5)
 			FileSystem::writeMD5File(meshFileName, md5FileName);
 	}
