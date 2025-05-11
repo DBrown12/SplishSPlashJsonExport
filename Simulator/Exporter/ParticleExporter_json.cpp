@@ -13,6 +13,7 @@
 #include "SPlisHSPlasH/BoundaryModel.h"
 #include "SPlisHSPlasH/RigidBodyObject.h"
 #include "Simulator/Exporter/ParticleExporter_JSON.h"
+#include "SPlisHsPlasH/Simulation.h"
 
 
 using json = nlohmann::json;
@@ -69,7 +70,9 @@ private:
 std::string m_exportPath;
 std::future<void> m_handle;
 */
+//modify this so that it uses the kernel from the SPHKernels section.
 // Cubic poly6 kernel (scalar)
+/*
 static inline Real W_poly6(const Real r, const Real h)
 {
     const Real q = r / h;
@@ -78,7 +81,7 @@ static inline Real W_poly6(const Real r, const Real h)
     if (q < Real(1.0))
         return coef * (pow(2.0 - q, 3) - Real(4.0) * pow(1.0 - q, 3));
     return coef * pow(2.0 - q, 3);
-}
+}*/
 
 
 void ParticleExporter_JSON::step(unsigned int frame)
@@ -104,14 +107,100 @@ void ParticleExporter_JSON::writeParticlesJSON(const std::string& fileName,
     unsigned int      frame,
     unsigned int      objId)
 {
+
     Simulation *sim = Simulation::getCurrent();
     json root;
     root["frame"] = frame;
     root["dt"]    = TimeManager::getCurrent()->getTimeStepSize();
-    const Real h = Simulation::getCurrent()->getSupportRadius();
-    const Real dx = Real(0.5) * h;
-    const Real W0 = W_poly6(Real(0), h);
-    Vector3r minB, maxB;
+
+    const int kernelID = sim->getKernel();
+    const Real currentSimSupRadius = Simulation::getCurrent()->getSupportRadius();
+
+    using KernelFct = std::function<Real(Real)>;
+    KernelFct W;
+    Real W_zero = Real(0);
+    std::string kernelName;
+
+    //I can't actually call the kernel directly it seems, so making a helper function
+    //So that I can actually get the correct kernel.
+    switch(kernelID) 
+    {
+    
+    case 0: //Cubickernel
+        CubicKernel::setRadius(currentSimSupRadius);
+        W = [=](Real r) {return CubicKernel::W(r); };
+        W_zero = CubicKernel::W_zero();
+        kernelName = "CubicKernel";
+        break;
+
+
+    case 1: //WendlandQuintiC2Kernel
+        WendlandQuinticC2Kernel::setRadius(currentSimSupRadius);
+        W = [=](Real r) {return WendlandQuinticC2Kernel::W(r); };
+        W_zero = WendlandQuinticC2Kernel::W_zero();
+        kernelName = "WendlandQuintiC2Kernel";
+        break;
+
+    case 2: // poly6Kernel
+        Poly6Kernel::setRadius(currentSimSupRadius);
+        W = [=](Real r) {return Poly6Kernel::W(r); };
+        W_zero = Poly6Kernel::W_zero();
+        kernelName = "poly6Kernel";
+        break;
+
+    case 3:
+        SpikyKernel::setRadius(currentSimSupRadius);
+        W = [=](Real r) {return SpikyKernel::W(r); };
+        W_zero = SpikyKernel::W_zero();
+        kernelName = "SpikyKernel";
+        break;
+
+    case 4: //Pre-computer cubic kernel
+    default:
+        Simulation::PrecomputedCubicKernel::setRadius(currentSimSupRadius);
+        W = [=](Real r) { return Simulation::PrecomputedCubicKernel::W(r); };
+        W_zero = Simulation::PrecomputedCubicKernel::W_zero();
+        kernelName = "PrecomputedCubicKernel";
+        break;
+        
+    }
+
+    root["kernel"] = {
+
+        {"Kernel id", kernelID},
+        {"Kernel Name", kernelName}
+
+    };
+
+
+    if (!m_gridInit)
+    {
+        m_gridDx = Real(0.5) * currentSimSupRadius;
+
+        // bounds of the *initial* fluid configuration
+        Vector3r minB = model->getPosition(0);
+        Vector3r maxB = minB;
+        for (unsigned int pi = 1; pi < model->numActiveParticles(); ++pi)
+        {
+            minB = minB.cwiseMin(model->getPosition(pi));
+            maxB = maxB.cwiseMax(model->getPosition(pi));
+        }
+        m_gridOrigin = minB;
+        m_gridDims = ((maxB - minB) / m_gridDx).cast<int>();
+        for (int c = 0; c < 3; ++c) m_gridDims[c] = std::max(m_gridDims[c], 1);
+
+        m_gridInit = true;
+    }
+    //const Real W0 = W_poly6(Real(0), h);
+    const Real   dx = m_gridDx;
+    const Vector3r& minB = m_gridOrigin;
+    const Eigen::Vector3i dims = m_gridDims;
+
+    //  Kernel chosen by the simulator
+// ---------------------------------------------------------------------
+    //const auto  W = sim->getKernel();   // function pointer: Real (*)(Real, Real)
+    //const Real  W_zero = sim->W_zero();      // kernel self‑weight
+    const Real  h = sim->getSupportRadius();
 
     // ------------- Serialize particles -------------------------------------------------
     auto &plist = root["particles"];
@@ -132,10 +221,20 @@ void ParticleExporter_JSON::writeParticlesJSON(const std::string& fileName,
         if (attributes[ai] == "position" || attributes[ai] == "velocity") { attrMap[ai] = -1; continue; }
         attrMap[ai] = -1;
         for (unsigned int fi = 0; fi < model->numberOfFields(); ++fi)
-            if (model->getField(fi).name == attributes[ai]) { attrMap[ai] = fi; break; }
+            if (model->getField(fi).name == attributes[ai]) { 
+                attrMap[ai] = fi; break; 
+            }
     }
 
+    //Seralizing my particles + rasterising my velocity field.
     const unsigned int n = model->numActiveParticles();
+
+    //Gonna test this
+    std::vector<Vector3r> vel(dims.x() * dims.y() * dims.z(), Vector3r::Zero());
+    std::vector<Real> w(dims.x() * dims.y() * dims.z(), Real(0));
+    auto flat = [&](const Eigen::Vector3i& ijk) {
+        return (ijk[2]*dims.y() + ijk[1])*dims.x() + ijk[0]; };
+    
     for (unsigned int pi = 0; pi < n; ++pi)
     {
         if (objId != 0xffffffff && model->getObjectId(pi) != objId) continue;
@@ -147,13 +246,14 @@ void ParticleExporter_JSON::writeParticlesJSON(const std::string& fileName,
         const Vector3r &v = model->getVelocity(pi);
         const Real mass = model->getMass(pi);
         const Real density = model->getDensity(pi);
+        const Real mash_over_density = mass / density;
 
         p["id"] = model->getParticleId(pi);
         p["pos"] = { x[0], x[1], x[2] };
         p["vel"] = { v[0], v[1], v[2] };
         p["mass"] = mass;
         p["density"] = density;
-        p["W0"] = W0;
+        p["W0"] = W_zero;
 
         for (unsigned int ai = 0; ai < attributes.size(); ++ai)
         {
@@ -161,21 +261,17 @@ void ParticleExporter_JSON::writeParticlesJSON(const std::string& fileName,
             if (fi == -1) continue;
             const FieldDescription &field = model->getField(fi);
             if (field.type == Scalar)
-                attr[field.name] = *((Real*)field.getFct(pi));
+                attr[field.name] = *reinterpret_cast<const Real*>(field.getFct(pi));
             else if (field.type == UInt)
-                attr[field.name] = *((unsigned int*)field.getFct(pi));
+                attr[field.name] = *reinterpret_cast<const unsigned int*>(field.getFct(pi));
             else if (field.type == Vector3)
             {
-                Eigen::Map<const Vector3r> vv((Real*)field.getFct(pi));
+                Eigen::Map<const Vector3r> vv(reinterpret_cast<const Real*>(field.getFct(pi)));
                 attr[field.name] = { vv[0], vv[1], vv[2] };
             }
         }
         if (!attr.empty()) p["attr"] = std::move(attr);
         plist.push_back(std::move(p));
-
-        minB = minB.cwiseMin(x);
-        maxB = maxB.cwiseMax(x);
-    }
 
     // ------------- Build velocity vector field on grid ------------------------------
     //const Real h  = model->getSupportRadius();
@@ -188,47 +284,38 @@ void ParticleExporter_JSON::writeParticlesJSON(const std::string& fileName,
         maxB = maxB.cwiseMax(model->getPosition(i));
     */
 
-    Eigen::Vector3i dims = ((maxB - minB) / dx).cast<int>();
-    for (int c = 0; c < 3; ++c) dims[c] = std::max(dims[c], 1);
-
-    std::vector<Vector3r>   vel(dims.x()*dims.y()*dims.z(), Vector3r::Zero());
-    std::vector<Real>       w  (dims.x()*dims.y()*dims.z(), Real(0));
-
-    auto flat = [&](const Eigen::Vector3i &ijk){ return (ijk[2]*dims.y() + ijk[1])*dims.x() + ijk[0]; };
-
-    for (unsigned int pi = 0; pi < n; ++pi)
-    {
-        if (objId != 0xffffffff && model->getObjectId(pi) != objId) continue;
-        const Vector3r &xp = model->getPosition(pi);
-        const Vector3r &vp = model->getVelocity(pi);
-        const Real mass = model->getMass(pi);
-        const Real density = model->getDensity(pi);
-        const Real mass_over_density = mass / density;
-
-        Eigen::Vector3i minI = ((xp - Vector3r::Constant(h) - minB) / dx).cast<int>();
-        Eigen::Vector3i maxI = ((xp + Vector3r::Constant(h) - minB) / dx).cast<int>();
+    //rastorising
+        
+        Eigen::Vector3i minI = ((x - Vector3r::Constant(h) - minB) / dx).cast<int>();
+        Eigen::Vector3i maxI = ((x + Vector3r::Constant(h) - minB) / dx).cast<int>();
         minI = minI.cwiseMax(Eigen::Vector3i::Zero());
         maxI = maxI.cwiseMin(dims - Eigen::Vector3i::Ones());
+
         for (int z = minI.z(); z <= maxI.z(); ++z)
-        for (int y = minI.y(); y <= maxI.y(); ++y)
-        for (int x = minI.x(); x <= maxI.x(); ++x)
-        {
-            Eigen::Vector3i ijk(x,y,z);
-            Vector3r xg = minB + (ijk.cast<Real>() + Vector3r::Constant(0.5))*dx;
-            Real r = (xg - xp).norm(); if (r >= Real(2.0)*h) continue;
-            Real weight = mass_over_density * W_poly6(r,h);
-            size_t idx = flat(ijk);
-            vel[idx] += vp * weight;
-            w[idx]   += weight;
-        }
+            for (int y = minI.y(); y <= maxI.y(); ++y)
+                for (int xg = minI.x(); xg <= maxI.x(); ++xg)
+                {
+                    Eigen::Vector3i ijk(xg, y, z);
+                    Vector3r xgWorld = minB + (ijk.cast<Real>() + Vector3r::Constant(0.5)) * dx;
+                    Real r = (xgWorld - x).norm();
+                    if (r >= Real(2.0) * h) continue;
+
+                    Real weight = mash_over_density * W(r);
+                    size_t idx = flat(ijk);
+                    vel[idx] += v * weight;
+                    w[idx] += weight;
+                }
     }
+    
     for (size_t k = 0; k < vel.size(); ++k) if (w[k] > Real(0)) vel[k] /= w[k];
+  
 
     // Serialize vector field as nested array [z][y][x][3]
     json vf;
     vf["name"]   = "velocity";
     vf["shape"]  = { dims.z(), dims.y(), dims.x() };
     vf["dx"]     = dx;
+    //We want the vector field to be over the 
     vf["origin"] = { minB[0], minB[1], minB[2] };
     auto &nested = vf["dataNested"];
     nested = json::array();
@@ -252,26 +339,23 @@ void ParticleExporter_JSON::writeParticlesJSON(const std::string& fileName,
 
     // ------------- Obstacles ---------------------------------------------------------
     auto &obsArr = root["obstacles"];
+    //Simulation* sim = Simulation::getCurrent();
     for (unsigned int bi = 0; bi < sim->numberOfBoundaryModels(); ++bi)
     {
         BoundaryModel *bm = sim->getBoundaryModel(bi);
         RigidBodyObject *rb = bm->getRigidBodyObject();
         json ob;
 
-        ob["id"] = reinterpret_cast<std::uintptr_t>(rb);
+        ob["Obstacle id"] = reinterpret_cast<std::uintptr_t>(rb);
         const Vector3r& vobs = rb->getVelocity();
 
-        ob["velocity"] = { vobs[0], vobs[1],vobs[2] };
-
-        static unsigned nextID = 0;
-        std::size_t ptrHash = reinterpret_cast<std::size_t>(rb);
-        unsigned id = static_cast<unsigned>(ptrHash & 0xffffffff);
+        ob["Obstacle velocity"] = { vobs[0], vobs[1],vobs[2] };
 
         //------------ going to build our own AABB ---------
         const auto& verts = rb->getVertices();
         Vector3r bmin = verts.front();
         Vector3r bmax = bmin;
-        for (const auto& v : verts)
+        for (const auto &v : verts)
         {
             bmin = bmin.cwiseMin(v);
             bmax = bmax.cwiseMax(v);
@@ -279,6 +363,7 @@ void ParticleExporter_JSON::writeParticlesJSON(const std::string& fileName,
 
         ob["bounds"] = { {"min", {bmin[0], bmin[1], bmin[2]}}, {"max", {bmax[0], bmax[1], bmax[2]}} };
 
+        obsArr.push_back(std::move(ob));
 
         /*
         ob["id"] = rb->getId();
