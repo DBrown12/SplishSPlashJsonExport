@@ -28,7 +28,7 @@
 		{
 			"id": "Fluid",
 			"maxEmitterParticles": 6000,
-            "density0": 10, 
+            "density0": 1000, 
 			"emitterReuseParticles": true,
 			"emitterBoxMin": [-2.0,-2.5,-2.0],
 			"emitterBoxMax": [1.0,4,2.0],
@@ -52,12 +52,13 @@
     "RigidBodies": [
         {
 			"geometryFile": "../models/Dragon_50k.obj",
-			"translation": [4,0.5,0],
+			"translation": [-4,0.5,0],
 			"rotationAxis": [0, 1, 0],
-            "velocity": [-5, 4, 0],
-			"rotationAngle": 0,
+            "velocity": [5, 4, 0],
+			"rotationAngle": 3.1415,
 			"scale": [0.5, 0.5, 0.5], 
 			"color": [0.1, 0.4, 0.6, 1.0], 
+            "density": 20000,
 			"isDynamic": true,
 			"isWall": false,
 			"mapInvert": false, 

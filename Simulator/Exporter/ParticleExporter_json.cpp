@@ -351,6 +351,8 @@ void ParticleExporter_JSON::writeParticlesJSON(const std::string& fileName,
 
         ob["Obstacle velocity"] = { vobs[0], vobs[1],vobs[2] };
 
+        ob["mass"] = rb->getMass();
+
         //------------ going to build our own AABB ---------
         const auto& verts = rb->getVertices();
         Vector3r bmin = verts.front();
