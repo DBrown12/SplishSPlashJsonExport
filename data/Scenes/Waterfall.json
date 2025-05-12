@@ -27,7 +27,7 @@
 	"Materials": [
 		{
 			"id": "Fluid",
-			"maxEmitterParticles": 6000,
+			"maxEmitterParticles": 20000,
             "density0": 1000, 
 			"emitterReuseParticles": true,
 			"emitterBoxMin": [-2.0,-2.5,-2.0],
@@ -51,21 +51,44 @@
 	],
     "RigidBodies": [
         {
+			"id": 1,
+			"geometryFile": "../models/UnitBox.obj",
+			"translation": [0,-1,0],
+			"rotationAxis": [1, 0, 0],
+			"rotationAngle": 0,
+			"scale": [1, 1, 1], 
+			"color": [0.1, 0.4, 0.6, 1.0], 
+			"isDynamic": false,
+			"isWall": false,
+			"mapInvert": false, 
+			"mapThickness": 0.0,
+			"mapResolution": [25,25,25]
+		},
+		        {
+			"id": 0,
 			"geometryFile": "../models/Dragon_50k.obj",
-			"translation": [-4,0.5,0],
-			"rotationAxis": [0, 1, 0],
-            "velocity": [5, 4, 0],
-			"rotationAngle": 3.1415,
+			"translation": [0,1.5,0],
+			"rotationAxis": [1, 0, 0],
+			"rotationAngle": 0,
 			"scale": [0.5, 0.5, 0.5], 
 			"color": [0.1, 0.4, 0.6, 1.0], 
-            "density": 20000,
+            "density": 10000,
 			"isDynamic": true,
 			"isWall": false,
 			"mapInvert": false, 
 			"mapThickness": 0.0,
 			"mapResolution": [20,20,20]
 		}
-    ]
+    ],
+	"SliderJoints": [
+		{
+			"bodyID1": 1,
+			"bodyID2": 0,
+			"axis": [0,0.86,0.42],
+			"repeatSequence": true,
+      		"targetSequence": [0,0,2,0.5,3,2]
+		}
+	]
 }
 
 
