@@ -1,0 +1,20 @@
+[2025-05-11 19:57:32] Info:    SPlisHSPlasH version: 2.13.1
+[2025-05-11 19:57:32] Debug:   Git refspec:          refs/heads/main
+[2025-05-11 19:57:32] Debug:   Git SHA1:             59723cde17e9958d2f31f18f05f989cfc54ad446
+[2025-05-11 19:57:32] Debug:   Git status:           DIRTY
+[2025-05-11 19:57:32] Debug:   Host name:            ALEX_LAPTOP
+[2025-05-11 19:57:32] Info:    Output directory: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/Waterfall
+[2025-05-11 19:57:32] Info:    Load scene file: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/data/Scenes/Waterfall.json
+[2025-05-11 19:57:32] Info:    Initialize dynamic boundary simulation
+[2025-05-11 19:57:32] Info:    Initialize fluid particles
+[2025-05-11 19:57:32] Info:    Number of fluid particles: 0
+[2025-05-11 19:57:32] Info:    Load scene file: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/data/Scenes/Waterfall.json
+[2025-05-11 19:57:32] Info:    Scene: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/data/Scenes/Waterfall.json
+[2025-05-11 19:57:32] Info:    Loading C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/data/models/Dragon_50k.obj
+[2025-05-11 19:57:33] Info:    Number of triangles: 50000
+[2025-05-11 19:57:33] Info:    Number of vertices: 25007
+[2025-05-11 19:57:33] Info:    Loading C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/resources/emitter_boundary/EmitterBox.obj
+[2025-05-11 19:57:33] Info:    Number of triangles: 56
+[2025-05-11 19:57:33] Info:    Number of vertices: 32
+[2025-05-11 19:57:33] Info:    Loaded cached volume map: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/data/Scenes/Cache/Dragon_50k_db_vm_0.01250000018626451492_s0.5_0.5_0.5_r20_20_20_i0_t0.cdm
+[2025-05-11 19:57:33] Info:    Loaded cached volume map: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/data/Scenes/Cache/EmitterBox_db_vm_0.01250000018626451492_s0.10000000149011611938_0.21250000596046447754_1.0625_r20_20_20_i0_t0.cdm

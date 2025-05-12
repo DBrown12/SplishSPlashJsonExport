@@ -1,0 +1,262 @@
+[2025-05-10 00:39:23] Info:    SPlisHSPlasH version: 2.13.1
+[2025-05-10 00:39:23] Debug:   Git refspec:          refs/heads/main
+[2025-05-10 00:39:23] Debug:   Git SHA1:             3f7ad532dcfead48d6a6f55279d6f332c10112c6
+[2025-05-10 00:39:23] Debug:   Git status:           DIRTY
+[2025-05-10 00:39:23] Debug:   Host name:            ALEX_LAPTOP
+[2025-05-10 00:39:23] Info:    Output directory: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase
+[2025-05-10 00:39:23] Info:    Load scene file: C:\Users\coppe\OneDrive\Desktop\CMSC838M\splishsplash\SplishSPlashJsonExport\data\Scenes\DoubleDamBreakMultiPhase.json
+[2025-05-10 00:39:23] Info:    Initialize static boundary simulation
+[2025-05-10 00:39:23] Info:    Initialize fluid particles
+[2025-05-10 00:39:23] Info:    Number of fluid particles: 8112
+[2025-05-10 00:39:24] Info:    OpenGL version 4.6
+[2025-05-10 00:39:24] Info:    Vendor: Intel
+[2025-05-10 00:39:24] Info:    Renderer: Intel(R) Arc(TM) Graphics
+[2025-05-10 00:39:24] Info:    Version: 4.6.0 - Build 32.0.101.6129
+[2025-05-10 00:39:24] Info:    Loading C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/data/models/UnitBox.obj
+[2025-05-10 00:39:24] Info:    Number of triangles: 12
+[2025-05-10 00:39:24] Info:    Number of vertices: 8
+[2025-05-10 00:39:24] Info:    Domain - min: -1.85, -2.8, -1.85
+[2025-05-10 00:39:24] Info:    Domain - max: 1.85, 2.8, 1.85
+[2025-05-10 00:39:24] Info:    Set SDF resolution: 25, 40, 25
+[2025-05-10 00:39:24] Info:    Generate SDF
+[2025-05-10 00:39:24] Info:    time SDF Construction: 26.7395 ms
+[2025-05-10 00:39:26] Info:    time Volume Map Construction: 1887.48 ms
+[2025-05-10 00:39:26] Info:    Save volume map: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/data/Scenes/Cache/UnitBox_sb_vm_0.02500000037252902985_s2.09999990463256835938_4_2.09999990463256835938_r25_40_25_i1_t0.cdm
+[2025-05-10 00:39:26] Info:    Loading C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/resources/emitter_boundary/EmitterBox.obj
+[2025-05-10 00:39:26] Info:    Number of triangles: 56
+[2025-05-10 00:39:26] Info:    Number of vertices: 32
+[2025-05-10 00:39:26] Info:    Domain - min: -0.911547, -0.953377, -1.09281
+[2025-05-10 00:39:26] Info:    Domain - max: 0.9, 0.953377, 1.09281
+[2025-05-10 00:39:26] Info:    Set SDF resolution: 20, 20, 20
+[2025-05-10 00:39:26] Info:    Generate SDF
+[2025-05-10 00:39:26] Info:    time SDF Construction: 21.1881 ms
+[2025-05-10 00:39:26] Info:    time Volume Map Construction: 116.157 ms
+[2025-05-10 00:39:26] Info:    Save volume map: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/data/Scenes/Cache/EmitterBox_sb_vm_0.02500000037252902985_s0.20000000298023223877_0.27500000596046447754_0.52499997615814208984_r20_20_20_i0_t0.cdm
+[2025-05-10 00:39:55] Info:    Average time: neighborhood_search: 1.89643 ms
+[2025-05-10 00:39:55] Info:    Average time: precomputeValues: 0.70409 ms
+[2025-05-10 00:39:55] Info:    Average time: computeVolumeAndBoundaryX: 1.02156 ms
+[2025-05-10 00:39:55] Info:    Average time: computeDFSPHFactor: 0.222886 ms
+[2025-05-10 00:39:55] Info:    Average time: divergenceSolve: 2.62445 ms
+[2025-05-10 00:39:55] Info:    Average time: computeNonPressureForces: 0.445057 ms
+[2025-05-10 00:39:55] Info:    Average time: pressureSolve: 2.76442 ms
+[2025-05-10 00:39:55] Info:    Average time: emitParticles: 0.15767 ms
+[2025-05-10 00:39:55] Info:    Average time: animateParticles: 0.00175364 ms
+[2025-05-10 00:39:55] Info:    Average time: SimStep: 10.5682 ms
+[2025-05-10 00:39:55] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:39:55] Info:    Average number: DFSPH - iterationsV: 3.34545
+[2025-05-10 00:39:55] Info:    Average number: DFSPH - iterations: 3.21818
+[2025-05-10 00:39:55] Info:    Average number: Time step size: 0.00355967
+[2025-05-10 00:39:55] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:39:57] Info:    Average time: neighborhood_search: 2.0405 ms
+[2025-05-10 00:39:57] Info:    Average time: precomputeValues: 0.875943 ms
+[2025-05-10 00:39:57] Info:    Average time: computeVolumeAndBoundaryX: 1.46505 ms
+[2025-05-10 00:39:57] Info:    Average time: computeDFSPHFactor: 0.284169 ms
+[2025-05-10 00:39:57] Info:    Average time: divergenceSolve: 5.14013 ms
+[2025-05-10 00:39:57] Info:    Average time: computeNonPressureForces: 0.760257 ms
+[2025-05-10 00:39:57] Info:    Average time: pressureSolve: 3.24571 ms
+[2025-05-10 00:39:57] Info:    Average time: emitParticles: 0.232153 ms
+[2025-05-10 00:39:57] Info:    Average time: animateParticles: 0.00250882 ms
+[2025-05-10 00:39:57] Info:    Average time: SimStep: 15.0443 ms
+[2025-05-10 00:39:57] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:39:57] Info:    Average number: DFSPH - iterationsV: 4.61765
+[2025-05-10 00:39:57] Info:    Average number: DFSPH - iterations: 2.52941
+[2025-05-10 00:39:57] Info:    Average number: Time step size: 0.005
+[2025-05-10 00:39:57] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:40:17] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_0.00100000004749745131.bin
+[2025-05-10 00:40:26] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_1.00006592273712158203.bin
+[2025-05-10 00:40:38] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_2.00239467620849609375.bin
+[2025-05-10 00:40:41] Info:    Average time: neighborhood_search: 2.41582 ms
+[2025-05-10 00:40:41] Info:    Average time: precomputeValues: 1.00872 ms
+[2025-05-10 00:40:41] Info:    Average time: computeVolumeAndBoundaryX: 1.33076 ms
+[2025-05-10 00:40:41] Info:    Average time: computeDFSPHFactor: 0.284145 ms
+[2025-05-10 00:40:41] Info:    Average time: divergenceSolve: 2.88343 ms
+[2025-05-10 00:40:41] Info:    Average time: computeNonPressureForces: 0.555935 ms
+[2025-05-10 00:40:41] Info:    Average time: pressureSolve: 4.16639 ms
+[2025-05-10 00:40:41] Info:    Average time: emitParticles: 0.165641 ms
+[2025-05-10 00:40:41] Info:    Average time: animateParticles: 0.00189749 ms
+[2025-05-10 00:40:41] Info:    Average time: SimStep: 13.7392 ms
+[2025-05-10 00:40:41] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:40:41] Info:    Average number: DFSPH - iterationsV: 2.21003
+[2025-05-10 00:40:41] Info:    Average number: DFSPH - iterations: 3.53292
+[2025-05-10 00:40:41] Info:    Average number: Time step size: 0.00351754
+[2025-05-10 00:40:41] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:43:33] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_0.00100000004749745131.bin
+[2025-05-10 00:43:41] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_1.00010335445404052734.bin
+[2025-05-10 00:43:46] Info:    Average time: neighborhood_search: 2.26388 ms
+[2025-05-10 00:43:46] Info:    Average time: precomputeValues: 0.903318 ms
+[2025-05-10 00:43:46] Info:    Average time: computeVolumeAndBoundaryX: 1.27167 ms
+[2025-05-10 00:43:46] Info:    Average time: computeDFSPHFactor: 0.272427 ms
+[2025-05-10 00:43:46] Info:    Average time: divergenceSolve: 3.02016 ms
+[2025-05-10 00:43:46] Info:    Average time: computeNonPressureForces: 0.528864 ms
+[2025-05-10 00:43:46] Info:    Average time: pressureSolve: 3.8684 ms
+[2025-05-10 00:43:46] Info:    Average time: emitParticles: 0.178483 ms
+[2025-05-10 00:43:46] Info:    Average time: animateParticles: 0.00180398 ms
+[2025-05-10 00:43:46] Info:    Average time: SimStep: 13.1708 ms
+[2025-05-10 00:43:46] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:43:46] Info:    Average number: DFSPH - iterationsV: 2.81534
+[2025-05-10 00:43:46] Info:    Average number: DFSPH - iterations: 3.49148
+[2025-05-10 00:43:46] Info:    Average number: Time step size: 0.00376356
+[2025-05-10 00:43:46] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:43:47] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_0.00100000004749745131.bin
+[2025-05-10 00:43:55] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_1.00172007083892822266.bin
+[2025-05-10 00:43:57] Info:    Average time: neighborhood_search: 2.23226 ms
+[2025-05-10 00:43:57] Info:    Average time: precomputeValues: 0.891749 ms
+[2025-05-10 00:43:57] Info:    Average time: computeVolumeAndBoundaryX: 1.25529 ms
+[2025-05-10 00:43:57] Info:    Average time: computeDFSPHFactor: 0.264068 ms
+[2025-05-10 00:43:57] Info:    Average time: divergenceSolve: 2.92197 ms
+[2025-05-10 00:43:57] Info:    Average time: computeNonPressureForces: 0.513616 ms
+[2025-05-10 00:43:57] Info:    Average time: pressureSolve: 3.42544 ms
+[2025-05-10 00:43:57] Info:    Average time: emitParticles: 0.167338 ms
+[2025-05-10 00:43:57] Info:    Average time: animateParticles: 0.00178043 ms
+[2025-05-10 00:43:57] Info:    Average time: SimStep: 12.5207 ms
+[2025-05-10 00:43:57] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:43:57] Info:    Average number: DFSPH - iterationsV: 2.78882
+[2025-05-10 00:43:57] Info:    Average number: DFSPH - iterations: 3.20807
+[2025-05-10 00:43:57] Info:    Average number: Time step size: 0.00363755
+[2025-05-10 00:43:57] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:43:57] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_0.00100000004749745131.bin
+[2025-05-10 00:43:58] Info:    Average time: neighborhood_search: 1.66437 ms
+[2025-05-10 00:43:58] Info:    Average time: precomputeValues: 0.812708 ms
+[2025-05-10 00:43:58] Info:    Average time: computeVolumeAndBoundaryX: 1.2946 ms
+[2025-05-10 00:43:58] Info:    Average time: computeDFSPHFactor: 0.269892 ms
+[2025-05-10 00:43:58] Info:    Average time: divergenceSolve: 2.30927 ms
+[2025-05-10 00:43:58] Info:    Average time: computeNonPressureForces: 0.683192 ms
+[2025-05-10 00:43:58] Info:    Average time: pressureSolve: 2.40267 ms
+[2025-05-10 00:43:58] Info:    Average time: emitParticles: 0.210408 ms
+[2025-05-10 00:43:58] Info:    Average time: animateParticles: 0.00137308 ms
+[2025-05-10 00:43:58] Info:    Average time: SimStep: 10.6998 ms
+[2025-05-10 00:43:58] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:43:58] Info:    Average number: DFSPH - iterationsV: 1.5
+[2025-05-10 00:43:58] Info:    Average number: DFSPH - iterations: 2.15385
+[2025-05-10 00:43:58] Info:    Average number: Time step size: 0.005
+[2025-05-10 00:43:58] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:43:59] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_0.00100000004749745131.bin
+[2025-05-10 00:44:07] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_1.00362384319305419922.bin
+[2025-05-10 00:44:08] Info:    Average time: neighborhood_search: 2.17899 ms
+[2025-05-10 00:44:08] Info:    Average time: precomputeValues: 0.908804 ms
+[2025-05-10 00:44:08] Info:    Average time: computeVolumeAndBoundaryX: 1.20984 ms
+[2025-05-10 00:44:08] Info:    Average time: computeDFSPHFactor: 0.265602 ms
+[2025-05-10 00:44:08] Info:    Average time: divergenceSolve: 2.91341 ms
+[2025-05-10 00:44:08] Info:    Average time: computeNonPressureForces: 0.512809 ms
+[2025-05-10 00:44:08] Info:    Average time: pressureSolve: 3.24907 ms
+[2025-05-10 00:44:08] Info:    Average time: emitParticles: 0.168831 ms
+[2025-05-10 00:44:08] Info:    Average time: animateParticles: 0.00176788 ms
+[2025-05-10 00:44:08] Info:    Average time: SimStep: 12.2676 ms
+[2025-05-10 00:44:08] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:44:08] Info:    Average number: DFSPH - iterationsV: 2.8245
+[2025-05-10 00:44:08] Info:    Average number: DFSPH - iterations: 3.09603
+[2025-05-10 00:44:08] Info:    Average number: Time step size: 0.00356279
+[2025-05-10 00:44:08] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:44:08] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_0.00100000004749745131.bin
+[2025-05-10 00:44:14] Info:    Average time: neighborhood_search: 2.20859 ms
+[2025-05-10 00:44:14] Info:    Average time: precomputeValues: 0.93736 ms
+[2025-05-10 00:44:14] Info:    Average time: computeVolumeAndBoundaryX: 1.35718 ms
+[2025-05-10 00:44:14] Info:    Average time: computeDFSPHFactor: 0.281117 ms
+[2025-05-10 00:44:14] Info:    Average time: divergenceSolve: 4.02245 ms
+[2025-05-10 00:44:14] Info:    Average time: computeNonPressureForces: 0.606864 ms
+[2025-05-10 00:44:14] Info:    Average time: pressureSolve: 3.79785 ms
+[2025-05-10 00:44:14] Info:    Average time: emitParticles: 0.18774 ms
+[2025-05-10 00:44:14] Info:    Average time: animateParticles: 0.00199728 ms
+[2025-05-10 00:44:14] Info:    Average time: SimStep: 14.3025 ms
+[2025-05-10 00:44:14] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:44:14] Info:    Average number: DFSPH - iterationsV: 3.80435
+[2025-05-10 00:44:14] Info:    Average number: DFSPH - iterations: 3.29348
+[2025-05-10 00:44:14] Info:    Average number: Time step size: 0.00372027
+[2025-05-10 00:44:14] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:44:15] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_0.00100000004749745131.bin
+[2025-05-10 00:44:20] Info:    Average time: neighborhood_search: 2.13776 ms
+[2025-05-10 00:44:20] Info:    Average time: precomputeValues: 0.939179 ms
+[2025-05-10 00:44:20] Info:    Average time: computeVolumeAndBoundaryX: 1.29827 ms
+[2025-05-10 00:44:20] Info:    Average time: computeDFSPHFactor: 0.271818 ms
+[2025-05-10 00:44:20] Info:    Average time: divergenceSolve: 3.45911 ms
+[2025-05-10 00:44:20] Info:    Average time: computeNonPressureForces: 0.584024 ms
+[2025-05-10 00:44:20] Info:    Average time: pressureSolve: 3.56475 ms
+[2025-05-10 00:44:20] Info:    Average time: emitParticles: 0.179404 ms
+[2025-05-10 00:44:20] Info:    Average time: animateParticles: 0.00182009 ms
+[2025-05-10 00:44:20] Info:    Average time: SimStep: 13.3142 ms
+[2025-05-10 00:44:20] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:44:20] Info:    Average number: DFSPH - iterationsV: 3.41122
+[2025-05-10 00:44:20] Info:    Average number: DFSPH - iterations: 3.24299
+[2025-05-10 00:44:20] Info:    Average number: Time step size: 0.00358522
+[2025-05-10 00:44:20] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:44:21] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_0.00100000004749745131.bin
+[2025-05-10 00:44:26] Info:    Average time: neighborhood_search: 2.14005 ms
+[2025-05-10 00:44:26] Info:    Average time: precomputeValues: 0.926929 ms
+[2025-05-10 00:44:26] Info:    Average time: computeVolumeAndBoundaryX: 1.3287 ms
+[2025-05-10 00:44:26] Info:    Average time: computeDFSPHFactor: 0.270223 ms
+[2025-05-10 00:44:26] Info:    Average time: divergenceSolve: 4.10679 ms
+[2025-05-10 00:44:26] Info:    Average time: computeNonPressureForces: 0.628818 ms
+[2025-05-10 00:44:26] Info:    Average time: pressureSolve: 3.73171 ms
+[2025-05-10 00:44:26] Info:    Average time: emitParticles: 0.19891 ms
+[2025-05-10 00:44:26] Info:    Average time: animateParticles: 0.00193036 ms
+[2025-05-10 00:44:26] Info:    Average time: SimStep: 14.2141 ms
+[2025-05-10 00:44:26] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:44:26] Info:    Average number: DFSPH - iterationsV: 4.07738
+[2025-05-10 00:44:26] Info:    Average number: DFSPH - iterations: 3.33333
+[2025-05-10 00:44:26] Info:    Average number: Time step size: 0.00384428
+[2025-05-10 00:44:26] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:44:27] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_0.00100000004749745131.bin
+[2025-05-10 00:44:30] Info:    Average time: neighborhood_search: 1.86276 ms
+[2025-05-10 00:44:30] Info:    Average time: precomputeValues: 0.82269 ms
+[2025-05-10 00:44:30] Info:    Average time: computeVolumeAndBoundaryX: 1.17488 ms
+[2025-05-10 00:44:30] Info:    Average time: computeDFSPHFactor: 0.251736 ms
+[2025-05-10 00:44:30] Info:    Average time: divergenceSolve: 4.61612 ms
+[2025-05-10 00:44:30] Info:    Average time: computeNonPressureForces: 0.542115 ms
+[2025-05-10 00:44:30] Info:    Average time: pressureSolve: 3.01146 ms
+[2025-05-10 00:44:30] Info:    Average time: emitParticles: 0.193993 ms
+[2025-05-10 00:44:30] Info:    Average time: animateParticles: 0.00167692 ms
+[2025-05-10 00:44:30] Info:    Average time: SimStep: 13.3045 ms
+[2025-05-10 00:44:30] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:44:30] Info:    Average number: DFSPH - iterationsV: 5.50962
+[2025-05-10 00:44:30] Info:    Average number: DFSPH - iterations: 3.24038
+[2025-05-10 00:44:30] Info:    Average number: Time step size: 0.00467246
+[2025-05-10 00:44:30] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:44:30] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_0.00100000004749745131.bin
+[2025-05-10 00:44:31] Info:    Average time: neighborhood_search: 1.88259 ms
+[2025-05-10 00:44:31] Info:    Average time: precomputeValues: 0.783639 ms
+[2025-05-10 00:44:31] Info:    Average time: computeVolumeAndBoundaryX: 1.2142 ms
+[2025-05-10 00:44:31] Info:    Average time: computeDFSPHFactor: 0.233356 ms
+[2025-05-10 00:44:31] Info:    Average time: divergenceSolve: 2.02458 ms
+[2025-05-10 00:44:31] Info:    Average time: computeNonPressureForces: 0.710833 ms
+[2025-05-10 00:44:31] Info:    Average time: pressureSolve: 2.25591 ms
+[2025-05-10 00:44:31] Info:    Average time: emitParticles: 0.19665 ms
+[2025-05-10 00:44:31] Info:    Average time: animateParticles: 0.00196111 ms
+[2025-05-10 00:44:31] Info:    Average time: SimStep: 10.365 ms
+[2025-05-10 00:44:31] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:44:31] Info:    Average number: DFSPH - iterationsV: 1.05556
+[2025-05-10 00:44:31] Info:    Average number: DFSPH - iterations: 2.11111
+[2025-05-10 00:44:31] Info:    Average number: Time step size: 0.005
+[2025-05-10 00:44:31] Info:    ---------------------------------------------------------------------------
+
+[2025-05-10 00:44:31] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_0.00100000004749745131.bin
+[2025-05-10 00:44:40] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_1.00329113006591796875.bin
+[2025-05-10 00:44:51] Info:    Saved state: C:/Users/coppe/OneDrive/Desktop/CMSC838M/splishsplash/SplishSPlashJsonExport/bin/output/DoubleDamBreakMultiPhase/state/state_2.00170731544494628906.bin
+[2025-05-10 00:46:24] Info:    Sum of emitted particles: 0
+[2025-05-10 00:46:24] Info:    Sum of reused particles: 0
+[2025-05-10 00:46:24] Info:    Sum of emitted particles: 0
+[2025-05-10 00:46:24] Info:    Sum of reused particles: 0
+[2025-05-10 00:46:24] Info:    Sum of emitted particles: 1000
+[2025-05-10 00:46:24] Info:    Sum of reused particles: 0
