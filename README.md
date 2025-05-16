@@ -1,4 +1,3 @@
-"# SplishSPlashJsonExport" 
 This is a modification to the SplishSPlash branch that includes our Json Exporter, our modifications to rigid bodies. This is also our repo for talking about our project, we have uploaded our original simulation code for generating training data before finding SplishSplash. Along with all of our .Json files that have been generated with SplishSplash to train our NN. We've included our Feed Forward NN code as well. Due to the scale of each time step being above 2 gigs, we realized that our current approach with a Forward First NN wouldn't be possible, as one simulation would take over 500 hours of training time. It would have scalability issues, and at that point might as well just be done with our first itteration. But this was the approach:
 
 Created our own Simulation Tool before finding SplishSplash:
