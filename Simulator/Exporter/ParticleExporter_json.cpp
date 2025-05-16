@@ -36,27 +36,6 @@ void ParticleExporter_JSON::init(const std::string &outputPath)
     m_exportPath = FileSystem::normalizePath(outputPath + "/json");
 }
 
-/*
-void ParticleExporter_JSON::step(unsigned int frame)
-{
-    if (!m_active) return;
-    Simulation *sim = Simulation::getCurrent();
-    for (unsigned int i = 0; i < sim->numberOfFluidModels(); ++i)
-    {
-        FluidModel *model = sim->getFluidModel(i);
-        const unsigned int numActiveParticles = model->numActiveParticles();
-        //going to go through all my active particles and get their information and keep
-        //track of them.
-        for (unsigned int j = 0; j < numActiveParticles; ++j) {
-                
-            unsigned int particleID = model->getParticleId(j);
-            std::string name = "ParticleData_" + model->getId() + "_particle_" + std::to_string(particleID) + "_frame_" + std::to_string(frame);
-            //unsigned int objID = 0xffffffff;
-            //unsigned int particleID = model->getParticleId(j);
-            writeParticlesJSON(m_exportPath + "/" + name + ".json", model, j, frame);
-        }
-    }
-}*/
 
 void ParticleExporter_JSON::reset() {}
 
@@ -65,23 +44,6 @@ void ParticleExporter_JSON::setActive(bool active)
     ExporterBase::setActive(active);
     if (m_active) FileSystem::makeDirs(m_exportPath);
 }
-/*
-private:
-std::string m_exportPath;
-std::future<void> m_handle;
-*/
-//modify this so that it uses the kernel from the SPHKernels section.
-// Cubic poly6 kernel (scalar)
-/*
-static inline Real W_poly6(const Real r, const Real h)
-{
-    const Real q = r / h;
-    if (q >= Real(2.0)) return Real(0.0);
-    const Real coef = Real(315.0) / (Real(64.0) * M_PI * pow(h, 9));
-    if (q < Real(1.0))
-        return coef * (pow(2.0 - q, 3) - Real(4.0) * pow(1.0 - q, 3));
-    return coef * pow(2.0 - q, 3);
-}*/
 
 
 void ParticleExporter_JSON::step(unsigned int frame)
@@ -367,18 +329,43 @@ void ParticleExporter_JSON::writeParticlesJSON(const std::string& fileName,
 
         obsArr.push_back(std::move(ob));
 
-        /*
-        ob["id"] = rb->getId();
-        ob["type"] = "mesh"; // or "box/sphere" depending on your own RTTI
-        const Vector3r &vobs = rb->getVelocity();
-        ob["velocity"] = { vobs[0], vobs[1], vobs[2] };
-        // local AABB in world space
-        const Vector3r &bmin = rb->getAABB().min();
-        const Vector3r &bmax = rb->getAABB().max();
-        ob["bounds"] = { {"min", {bmin[0], bmin[1], bmin[2]}}, {"max", {bmax[0], bmax[1], bmax[2]}} };
-        obsArr.push_back(std::move(ob));
-        */
     }
+    // --- Also export minimal JSON with only particle positions for splashsurf ---
+    {
+        std::vector<std::array<Real, 3>> positionsOnly;
+        for (unsigned int pi = 0; pi < n; ++pi)
+        {
+            if (objId != 0xffffffff && model->getObjectId(pi) != objId)
+                continue;
+
+            const Vector3r& x = model->getPosition(pi);
+            positionsOnly.push_back({ x[0], x[1], x[2] });
+        }
+
+        // Write to a parallel file with _positions.json suffix
+        std::string posFileName = fileName;
+        const size_t ext = posFileName.rfind(".json");
+        if (ext != std::string::npos)
+            posFileName.replace(ext, 5, "_positions.json");
+        else
+            posFileName += "_positions.json";
+
+        const bool async = m_base->getValue<bool>(SimulatorBase::ASYNC_EXPORT);
+        if (async)
+        {
+            // Avoid race conditions with shared m_handle
+            std::async(std::launch::async, [positionsOnly, posFileName]() {
+                std::ofstream out(posFileName);
+                out << json(positionsOnly).dump(2);
+                });
+        }
+        else
+        {
+            std::ofstream out(posFileName);
+            out << json(positionsOnly).dump(2);
+        }
+    }
+
 
     // ------------- Async write --------------------------------------------------------
     const bool async = m_base->getValue<bool>(SimulatorBase::ASYNC_EXPORT);
