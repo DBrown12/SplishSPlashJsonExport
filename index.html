@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="description"
-        content="Deformable Neural Radiance Fields creates free-viewpoint portraits (nerfies) from casually captured videos.">
-  <meta name="keywords" content="Nerfies, D-NeRF, NeRF">
+        content="Looking into real-time particle simulations using LGNN">
+  <meta name="keywords" content="LGNN, SPH">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Nerfies: Deformable Neural Radiance Fields</title>
+  <title>Towards Real-Time Interactive Fluid Rendering</title>
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
@@ -88,32 +88,18 @@
     <div class="container is-max-desktop">
       <div class="columns is-centered">
         <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">Nerfies: Deformable Neural Radiance Fields</h1>
+          <h1 class="title is-1 publication-title">Towards Real-Time Interactive Fluid Rendering</h1>
           <div class="is-size-5 publication-authors">
             <span class="author-block">
-              <a href="https://keunhong.com">Keunhong Park</a><sup>1</sup>,</span>
+              <a href="dbrown37@umd.edu">Daniel Brown</a><sup>1</sup>,</span>
             <span class="author-block">
-              <a href="https://utkarshsinha.com">Utkarsh Sinha</a><sup>2</sup>,</span>
-            <span class="author-block">
-              <a href="https://jonbarron.info">Jonathan T. Barron</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://sofienbouaziz.com">Sofien Bouaziz</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://www.danbgoldman.com">Dan B Goldman</a><sup>2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://homes.cs.washington.edu/~seitz/">Steven M. Seitz</a><sup>1,2</sup>,
-            </span>
-            <span class="author-block">
-              <a href="http://www.ricardomartinbrualla.com">Ricardo Martin-Brualla</a><sup>2</sup>
+              <a href="acoppens@umd.edu">Alex Coppens</a><sup>2</sup>,</span>
             </span>
           </div>
 
           <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>University of Washington,</span>
-            <span class="author-block"><sup>2</sup>Google Research</span>
+            <span class="author-block"><sup>1</sup>University of Maryland,</span>
+            <span class="author-block"><sup>2</sup>University of Maryland</span>
           </div>
 
           <div class="column has-text-centered">
@@ -258,37 +244,175 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            We present the first method capable of photorealistically reconstructing a non-rigidly
-            deforming scene using photos/videos captured casually from mobile phones.
-          </p>
-          <p>
-            Our approach augments neural radiance fields
-            (NeRF) by optimizing an
-            additional continuous volumetric deformation field that warps each observed point into a
-            canonical 5D NeRF.
-            We observe that these NeRF-like deformation fields are prone to local minima, and
-            propose a coarse-to-fine optimization method for coordinate-based models that allows for
-            more robust optimization.
-            By adapting principles from geometry processing and physical simulation to NeRF-like
-            models, we propose an elastic regularization of the deformation field that further
-            improves robustness.
-          </p>
-          <p>
-            We show that <span class="dnerf">Nerfies</span> can turn casually captured selfie
-            photos/videos into deformable NeRF
-            models that allow for photorealistic renderings of the subject from arbitrary
-            viewpoints, which we dub <i>"nerfies"</i>. We evaluate our method by collecting data
-            using a
-            rig with two mobile phones that take time-synchronized photos, yielding train/validation
-            images of the same pose at different viewpoints. We show that our method faithfully
-            reconstructs non-rigidly deforming scenes and reproduces unseen views with high
-            fidelity.
-            Testing
+            Rendering interactive fluid in real-time has a number of applications in video-games, 
+            engineering visualization tools and animation. For many of these applications, approaches 
+            which trade physical accuracy for performance are acceptable so long as visual plausibility 
+            is retained. Existing approaches struggle to achieve real-time performance due to poor scaling 
+            and computational complexity. Our work investigates multiple possible approaches to real-time 
+            interactive fluid rendering and evaluates their feasibility and drawbacks. We describe an 
+            attempt to approximate fluid using a highly simplified particle based simulator. We outline 
+            two proposed neural network architectures for approximating fluid flow and evaluate their 
+            feasibility. We describe modifications made to an open-source SPH simulation tool meant to 
+            facilitate the generation of training data for these neural networks.
           </p>
         </div>
       </div>
     </div>
     <!--/ Abstract. -->
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Introduction</h2>
+        <div class="content has-text-justified">
+          <p>
+            Realtime physics engines such as Havok, Chaos for Unreal Engine, PhysX, and Unity's built-in 
+            engine are designed to produce plausible physical interactions while having sufficient performance 
+            to be interactable in real time. Most real-time engines implement rigid body dynamics using broad-phase 
+            and narrow-phase collision detection. These steps are then followed by impulse-based or constraint-based 
+            collision methods. For sparse materials, such as fire, smoke and rain, particle based simulations are used. 
+            Simulations of these materials often ignore inter-particle interactions for improved performance. 
+            Environmental elements such as fluid or soft bodies require specialized physically grounded simulation 
+            techniques such as Smoothed Particle Hydrodynamics (SPH) and Position-Based Dynamics (PBD) respectively.
+
+            These approaches feature a range of tradeoffs and limitations. SPH simulations suffer from poor scaling 
+            as the number of particles required to simulate a volume increases cubically as the particle radius 
+            decreases. SPH simulations spend much of their runtime in neighboring particle searches. For many 
+            commonly simulated fluids, such as water and gasoline, enforcing incompressibility is necessary for 
+            physical accuracy. Additionally, the time step size required to maintain the numerical stability of 
+            the simulation may be smaller than the frame rate of the rendering engine, requiring multiple time 
+            steps to be simulated per frame. Interactions between fluids and rigid bodies introduces additional 
+            complexity as these interfaces require special handling of pressure and boundary conditions.
+
+            Within the context of game engines, frame rates must be high enough to meet user expectations and thus 
+            trading physical accuracy for performance is acceptable. Common simplifications made in engines for 
+            real-time fluid simulation include larger grids, extruded 2-d fluids and precomputed fluids.
+
+            In order to advance real-time fluid simulation, we explored alternative simulation and machine-learning 
+            based solutions. We attempted to develop a custom simulation pipeline, applying multiple un-physical 
+            simplifications to quickly generate particle data suitable for fluid rendering. We realized that these 
+            simplifications resulted in numerical instability and were insufficient in reproducing visually 
+            plausible fluid effects, so we switched to adapting the open-source SPlisHSPlasH SPH simulator. 
+            We modified SPlisHSPlasH to produce ground-truth training data for data-driven modeling. We then 
+            explored a feed-forward neural network to learn time-dependent fluid evolutions via velocity field 
+            prediction. Due to severe dimensionality problems with this approach, we transitioned to investigating 
+            a Lagrangian Graph Neural Network (LGNN) architecture. We believe this would allow us to model fluid 
+            systems with more generality and apply model parallelism to faster training. It also offers a promising 
+            direction for efficient, high-fidelity fluid simulations beyond the constraints of traditional real-time 
+            physics engines. 
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Related Work</h2>
+        <div class="content has-text-justified">
+          <p>
+            The challenges of simulating physics within real-time game engines have let to extensive research 
+            into both simulation and machine learning approaches. The work \cite{Braley2009FluidSF} Fluid 
+            Simulation for Computer Graphics: A tutorial in Grid-Based and Particle-Based Methods, outlines 
+            Eulerian and Lagrangian frameworks for fluid simulation which are commonly used for interactive 
+            graphics applications. To handle these complexities when it comes to soft bodies and computational 
+            efficiency, \cite{10.1145/3588432.3591521}Data-Free Learning of Reduced-Order Kinematics, introduces 
+            techniques that aim to reduce simulation complexity by getting compact representations in kinematic 
+            behaviors without extensive training datasets. Ubisoft research expands upon this with, 
+            \cite{10.1145/3309486.3340245}Subspace Neural Physics: Fast Data-Drive Interactive Simulation, 
+            which goes on to leverage subspace models and neural networks to accelerate simulations while 
+            maintaining a high frame rate within interactivity. This effectively bridges physics-based modeling 
+            and data-driven optimizations. 
+
+            With recent advances within the field of machine learning, neural network architectures have further 
+            expanded the possibilities for physically accurate, and computationally efficient, real-time simulations 
+            representations. The study \cite{bhattoo2022learningdynamicsparticlebasedsystems}Learning the Dynamics 
+            of Particle-based Systems with Lagrangian Graph Neural Networks (2022) specifically targets particle-based 
+            physical systems, and demonstrates how graph-based learning frameworks can capture complex particle 
+            iterations, which significantly improve simulation stability and generalization capabilities. There 
+            are also the theoretical connections explored within Connecting \cite{zhao2021connectinggraphconvolutionalnetworks} 
+            graph convolutional networks and graph-regularized PCA which provides insights into how graph 
+            structures can efficiently encode physical constraints and neighborhood interactions. By doing 
+            this, it enhances the interpretability and performance of learned physical methods. The above works 
+            collectively establish a foundation for our exploration of neural-network-driven fluid simulations, 
+            specifically when achieving accurate, interactive-scale fluid dynamics while addressing computational 
+            bottlenecks.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Proposed Approaches</h2>
+        
+        <div class="content has-text-justified">
+          <h3 class="title is-4">Naive Solution</h3>
+          <p>
+            Fluid simulation methods can be separated into a few broad categories. \cite{fluids6120460} 
+            Eulerian simulations discretize space into a regular grid, with each grid cell containing fluid 
+            properties such as velocity and pressure at that location. Eulerian simulations are less favored 
+            for rendering applications due to their fixed resolution, and the difficulty of implementing 
+            fluid-air interfaces and droplets. Lagrangian simulations discretize fluid into a collection of 
+            particles with positions over a continuous simulation domain, hence the term smoothed particle 
+            hydrodynamics. The Lagrangian approach is more common in rendering applications because the particle 
+            discretization allows for easy replication of phenomena like droplets and splashes, and the lack of 
+            a fixed resolution results in an absence of grid artifacts.
+
+            The open-source fluid simulation framework SPlisHSPlasH implements a Lagrangian fluid simulation 
+            based on SPH. It offers a selection of pressure solvers for implementing incompressibility, multiple 
+            particle kernel function options, and supports coupling with rigid and deformable bodies. SPlisHSPlasH 
+            uses additional libraries for fast rigid body collisions and particle neighborhood search.
+          </p>
+        </div>
+
+        <div class="content has-text-justified">
+          <h3 class="title is-4">Feed-Forward Neural Network</h3>
+          <p>
+            <!-- FFNN content goes here -->
+          </p>
+        </div>
+
+        <div class="content has-text-justified">
+          <h3 class="title is-4">Lagrangian Graph Neural Network</h3>
+          <p>
+            <!-- LGNN content goes here -->
+          </p>
+        </div>
+
+        <div class="content has-text-justified">
+          <h3 class="title is-4">SPlishSPlash Modifications</h3>
+          <p>
+            <!-- SplishSplash modifications go here -->
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Discussion</h2>
+        <div class="content has-text-justified">
+          <p>
+            <!-- Discussion text goes here -->
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
     <!-- Paper video. -->
     <div class="columns is-centered has-text-centered">
