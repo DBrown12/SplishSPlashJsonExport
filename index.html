@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Towards Real-Time Interactive Fluid Rendering</title>
+  <style>
+    body {
+      font-family: 'Times New Roman', Times, serif;
+      margin: 0;
+      padding: 0;
+      background: #fff;
+      color: #000;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      column-count: 2;
+      column-gap: 40px;
+      padding: 0 20px;
+    }
+
+    h1.title {
+      text-align: center;
+      font-size: 24pt;
+      margin-bottom: 10px;
+    }
+
+    .authors {
+      text-align: center;
+      font-size: 12pt;
+      margin-bottom: 30px;
+    }
+
+    .abstract-box {
+      border: 1px solid #aaa;
+      padding: 10px;
+      margin-bottom: 30px;
+      font-size: 10.5pt;
+      page-break-inside: avoid;
+    }
+
+    h2 {
+      font-size: 11pt;
+      margin-top: 20px;
+      break-after: avoid;
+    }
+
+    p {
+      font-size: 10pt;
+      text-align: justify;
+      break-inside: avoid;
+    }
+
+    .section-number {
+      font-weight: bold;
+      margin-right: 0.5em;
+    }
+
+    /* Ensure two columns only for large screens */
+    @media (max-width: 768px) {
+      .container {
+        column-count: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="title">Towards Real-Time Interactive Fluid Rendering</h1>
+  <div class="authors">Daniel Brown, University of Maryland</div>
+
+  <div class="container">
+
+    <div class="abstract-box">
+      <strong>Abstract</strong><br>
+      This work explores real-time, interactive rendering of fluid simulations by leveraging neural representations and Smoothed Particle Hydrodynamics (SPH). Our approach focuses on minimizing latency while preserving visual fidelity, with the ultimate goal of enabling fluid rendering in interactive applications and game engines.
+    </div>
+
+    <h2><span class="section-number">1</span>Introduction</h2>
+    <p>
+      Real-time rendering of fluid effects remains a significant challenge in graphics and simulation. Traditional methods often trade physical accuracy for performance, limiting their use in interactive environments. This paper proposes a hybrid solution combining neural networks and SPH-based simulation data to achieve high-quality rendering under real-time constraints.
+    </p>
+
+    <h2><span class="section-number">2</span>Related Work</h2>
+    <p>
+      Prior work in fluid simulation spans Eulerian and Lagrangian methods, with SPH emerging as a leading choice for interactive applications. Recent developments like NeuralFLIP and Gaussian Splatting suggest that neural approximations of fluid behavior can significantly reduce the computational burden while maintaining visual plausibility.
+    </p>
+
+    <h2><span class="section-number">3</span>Method</h2>
+    <p>
+      We extend the SPlisHSPlasH simulator with a custom JSON exporter for particle data, which is then used to train a Lagrangian Graph Neural Network (LGNN). This network learns time-dependent particle states and reconstructs visual surfaces using techniques such as weighted Gaussian splatting or mesh surface regression.
+    </p>
+
+    <h2><span class="section-number">4</span>Discussion</h2>
+    <p>
+      While our method achieves high frame rates in certain conditions, limitations in neural rendering latency and surface reconstruction still pose challenges. Future work includes GPU-optimized neural models and integration with real-time engines like Unity and Unreal for direct game-engine visualization.
+    </p>
+
+  </div>
+
+</body>
+</html>
